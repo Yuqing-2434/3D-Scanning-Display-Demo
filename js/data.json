@@ -1,0 +1,14 @@
+{
+  "title": "Happy Ghast Specimen",
+  "description": "A Harnessed happy ghast sit on a tissue paper box. This specimen exhibits unique cute cubic structures. Scanned by RealityComposer, this model captures the intricate details of the features and textures. Perfect for display or educational purposes.",
+  "modelUrl": "models/Happy Ghast in a Box_9746.glb",
+  "bannerUrl": "img/1.21.6_ChaseTheSkies_Header.png",
+  "images": [
+    { "id": "front", "src": "img/Happy Ghast in a Box_9746/HappyGhast_Front.png", "label": "Front View" },
+    { "id": "back", "src": "img/Happy Ghast in a Box_9746/HappyGhast_Back.png", "label": "Back View" },
+    { "id": "left", "src": "img/Happy Ghast in a Box_9746/HappyGhast_Left.png", "label": "Left View" },
+    { "id": "right", "src": "img/Happy Ghast in a Box_9746/HappyGhast_Right.png", "label": "Right View" },
+    { "id": "top", "src": "img/Happy Ghast in a Box_9746/HappyGhast_Top.png", "label": "Top View" },
+    { "id": "bottom", "src": "img/Happy Ghast in a Box_9746/HappyGhast_Bottom.png", "label": "Bottom View" }
+  ]
+}

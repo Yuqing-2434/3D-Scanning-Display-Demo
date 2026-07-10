@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Specimen Display</title>
+    <link rel="icon" type="image/png" href="img/Happy_Ghast_face.png">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Import model-viewer component for 3D model display and AR -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+</head>
+<body>
+    <header id="header">
+        <div class="banner">
+            <h1 id="page-title">Loading...</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Description Section -->
+        <section class="info-section">
+            <div class="panel">
+                <h2>Description</h2>
+                <p id="page-description">Loading description...</p>
+            </div>
+        </section>
+
+        <!-- 3D Model Viewer Section -->
+        <section class="viewer-section">
+            <div class="panel">
+                <h2>Interactive 3D Model</h2>
+                <div class="model-container">
+                    <model-viewer id="model-viewer" 
+                                  src="" 
+                                  camera-controls 
+                                  auto-rotate 
+                                  shadow-intensity="1"
+                                  ar>
+                    </model-viewer>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Gallery Section for Orthographic Views -->
+        <section class="gallery-section">
+            <div class="panel">
+                <h2>Orthographic Views</h2>
+                <div class="gallery-grid" id="gallery-grid">
+                    <!-- Images will be loaded here dynamically via JavaScript -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for viewing large images -->
+    <div id="image-modal" class="modal">
+        <span class="close-btn" id="close-modal">&times;</span>
+        <img class="modal-content" id="modal-img">
+        <div id="modal-caption"></div>
+    </div>
+
+    <!-- Main JavaScript Logic -->
+    <script src="js/script.js"></script>
+
+    <!-- Simple Footer Section -->
+    <footer class="footer">
+        <p>&copy; 2026 Creative Technology Lab | 3D Specimen Display Demo | Optimized for model viewing</p>
+    </footer>
+</body>
+</html>

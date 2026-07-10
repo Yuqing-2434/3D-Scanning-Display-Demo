@@ -1,0 +1,274 @@
+/* Load custom fonts */
+@font-face {
+    font-family: 'MinecraftTitle';
+    src: url('../fonts/minecraft_pe/MINECRAFT PE.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'MinecraftBody';
+    src: url('../fonts/Minecraft_Pixel_Font.ttf') format('truetype');
+}
+
+/* Define Minecraft-like CSS Variables */
+:root {
+    --mc-bg-color: #c6c6c6;       /* Classic Minecraft GUI gray */
+    --mc-border-light: #ffffff;   /* Highlight border */
+    --mc-border-dark: #555555;    /* Shadow border */
+    --mc-text-dark: #3f3f3f;      /* Dark text color for GUI */
+    --mc-text-light: #ffffff;     /* Light text color */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    /* Dark background outside the GUI elements */
+    background-color: #2b2b2b; 
+    /* A very subtle pattern can be added here. Currently using dark gray. */
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFElEQVQIW2NkYGD4z8DAwMgAI0AMDA4LAj01p0QAAAAASUVORK5CYII='); 
+    color: var(--mc-text-dark);
+    font-family: 'MinecraftBody', sans-serif;
+    font-size: 1rem;
+    line-height: 1.4;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header with background Banner */
+.banner {
+    width: 100%;
+    height: 200px; /* Increased height for better banner visibility */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-bottom: 4px solid var(--mc-border-dark);
+    flex-shrink: 0;
+}
+
+/* Title text with Minecraft shadow style */
+.banner h1 {
+    position: absolute;
+    bottom: 10px;
+    left: 30px;
+    margin: 0;
+    color: #ffaa00; /* Gold color */
+    text-shadow: 3px 3px 0 #3f3f3f;
+    font-family: 'MinecraftTitle', sans-serif;
+    font-size: 2.5rem;
+}
+
+/* Main Grid Container - 2 Columns */
+.container {
+    max-width: 1400px;
+    margin: 15px auto;
+    padding: 0 15px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr; /* Left: 3D model (60%), Right: Info/Gallery (40%) */
+    grid-template-rows: auto 1fr;
+    gap: 15px;
+    flex-grow: 1;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.viewer-section {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3; /* Spans across both rows */
+    display: flex;
+    flex-direction: column;
+}
+
+.info-section {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+}
+
+.gallery-section {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Minecraft GUI Panel Style */
+.panel {
+    background-color: var(--mc-bg-color);
+    border: 4px solid;
+    border-top-color: var(--mc-border-light);
+    border-left-color: var(--mc-border-light);
+    border-bottom-color: var(--mc-border-dark);
+    border-right-color: var(--mc-border-dark);
+    padding: 15px;
+    box-shadow: inset -2px -2px 0px rgba(0,0,0,0.15), inset 2px 2px 0px rgba(255,255,255,0.5);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.panel h2 {
+    font-family: 'MinecraftTitle', sans-serif;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--mc-text-dark);
+    font-size: 1.4rem;
+    border-bottom: 2px solid var(--mc-border-dark);
+    padding-bottom: 5px;
+}
+
+/* 3D Model Container */
+.model-container {
+    width: 100%;
+    flex-grow: 1; /* Expand to fill the left panel height */
+    min-height: 550px; /* Slightly larger base height */
+    background-color: #111; /* Dark background */
+    border: 4px solid;
+    /* Inverted borders to look like a sunken slot */
+    border-top-color: var(--mc-border-dark);
+    border-left-color: var(--mc-border-dark);
+    border-bottom-color: var(--mc-border-light);
+    border-right-color: var(--mc-border-light);
+}
+
+model-viewer {
+    width: 100%;
+    height: 100%;
+    --poster-color: transparent;
+}
+
+/* Gallery Grid */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns to make 6 items fit in a 3x2 grid */
+    gap: 10px;
+    flex-grow: 1;
+}
+
+/* Gallery Item / Button Style */
+.gallery-item {
+    cursor: pointer;
+    background-color: #8b8b8b; /* Slightly darker than GUI base */
+    border: 3px solid;
+    border-top-color: var(--mc-border-light);
+    border-left-color: var(--mc-border-light);
+    border-bottom-color: var(--mc-border-dark);
+    border-right-color: var(--mc-border-dark);
+    padding: 5px;
+    transition: transform 0.1s, border-color 0.1s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-item:hover {
+    background-color: #9c9c9c;
+}
+
+.gallery-item:active {
+    border-top-color: var(--mc-border-dark);
+    border-left-color: var(--mc-border-dark);
+    border-bottom-color: var(--mc-border-light);
+    border-right-color: var(--mc-border-light);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100px;
+    object-fit: contain;
+    display: block;
+    image-rendering: pixelated; /* Keeps pixel art crisp */
+    background-color: #2b2b2b;
+    border: 2px solid var(--mc-border-dark);
+}
+
+.gallery-label {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 0.85rem;
+    color: var(--mc-text-light);
+    text-shadow: 1px 1px 0 #3f3f3f;
+}
+
+/* Modal styling for zooming into images */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.85); 
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 80vh;
+    margin-top: 5vh;
+    image-rendering: pixelated; /* Crisp pixel scaling */
+    border: 4px solid var(--mc-bg-color);
+}
+
+#modal-caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    text-align: center;
+    color: var(--mc-text-light);
+    padding: 10px 0;
+    font-size: 1.5rem;
+    font-family: 'MinecraftTitle', sans-serif;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'MinecraftTitle', sans-serif;
+    transition: color 0.2s;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #ff5555;
+    text-decoration: none;
+}
+
+/* Footer Style */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #1a1a1a;
+    border-top: 4px solid var(--mc-border-dark);
+    color: #8b8b8b;
+    font-size: 0.9rem;
+    margin-top: 20px;
+}
+
+/* Responsive Layout */
+@media (max-width: 900px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+    .viewer-section {
+        grid-row: 1 / 2;
+        grid-column: 1 / 2;
+    }
+    .info-section {
+        grid-row: 2 / 3;
+        grid-column: 1 / 2;
+    }
+    .gallery-section {
+        grid-row: 3 / 4;
+        grid-column: 1 / 2;
+    }
+}
