@@ -15,6 +15,7 @@ const apiUrlInput = document.getElementById('api-url');
 const apiKeyInput = document.getElementById('api-key');
 const apiModelInput = document.getElementById('api-model');
 const settingsForm = document.getElementById('settings-form');
+const resetSettingsBtn = document.getElementById('reset-settings-btn');
 
 const floatingChatPanel = document.getElementById('floating-chat-panel');
 const aiChatBtn = document.getElementById('ai-chat-btn');
@@ -22,6 +23,11 @@ const closeChatBtn = document.getElementById('close-chat');
 const clearChatBtn = document.getElementById('clear-chat');
 
 let knowledgeBase = ""; // Will store our knowledge text
+
+// Active configuration state for the current session
+let activeApiUrl = 'https://api.deepseek.com/v1/chat/completions';
+let activeApiKey = '';
+let activeApiModel = 'deepseek-v4-flash';
 
 // Load configuration from local .env file (if running locally)
 async function loadEnvConfig() {
@@ -35,10 +41,10 @@ async function loadEnvConfig() {
                 if (parts.length >= 2) {
                     const key = parts[0].trim();
                     const value = parts.slice(1).join('=').trim().replace(/^["'](.*)["']$/, '$1'); // Strip quotes if any
-                    // Always overwrite input fields if .env has values (Local .env overrides LocalStorage)
-                    if (key === 'API_URL' && value) apiUrlInput.value = value;
-                    if (key === 'API_KEY' && value) apiKeyInput.value = value;
-                    if (key === 'API_MODEL' && value) apiModelInput.value = value;
+                    // Always override active config if .env has values (Local .env overrides LocalStorage)
+                    if (key === 'API_URL' && value) activeApiUrl = value;
+                    if (key === 'API_KEY' && value) activeApiKey = value;
+                    if (key === 'API_MODEL' && value) activeApiModel = value;
                 }
             });
             console.log("Loaded local .env config.");
@@ -53,16 +59,28 @@ function loadConfig() {
     const savedUrl = localStorage.getItem('ai_api_url');
     const savedKey = localStorage.getItem('ai_api_key');
     const savedModel = localStorage.getItem('ai_api_model');
-    if (savedUrl) apiUrlInput.value = savedUrl;
-    if (savedKey) apiKeyInput.value = savedKey;
-    if (savedModel) apiModelInput.value = savedModel;
+    if (savedUrl) activeApiUrl = savedUrl;
+    if (savedKey) activeApiKey = savedKey;
+    if (savedModel) activeApiModel = savedModel;
 }
 
-// Save configuration to LocalStorage
+// Function to populate the modal fields with the current active config
+function populateSettingsForm() {
+    apiUrlInput.value = activeApiUrl;
+    apiKeyInput.value = activeApiKey;
+    apiModelInput.value = activeApiModel;
+}
+
+// Save configuration to LocalStorage and update active state
 function saveConfig() {
-    localStorage.setItem('ai_api_url', apiUrlInput.value.trim());
-    localStorage.setItem('ai_api_key', apiKeyInput.value.trim());
-    localStorage.setItem('ai_api_model', apiModelInput.value.trim());
+    activeApiUrl = apiUrlInput.value.trim();
+    activeApiKey = apiKeyInput.value.trim();
+    activeApiModel = apiModelInput.value.trim();
+    
+    localStorage.setItem('ai_api_url', activeApiUrl);
+    localStorage.setItem('ai_api_key', activeApiKey);
+    localStorage.setItem('ai_api_model', activeApiModel);
+    
     settingsModal.style.display = 'none';
     addMessage('System', 'Settings saved successfully! You can now chat.');
 }
@@ -105,10 +123,10 @@ async function sendMessage() {
     const text = chatInput.value.trim();
     if (!text) return;
 
-    // Use the current values from the input fields (which were populated by either localStorage or .env)
-    const apiUrl = apiUrlInput.value.trim();
-    const apiKey = apiKeyInput.value.trim();
-    const apiModel = apiModelInput.value.trim() || 'deepseek-v4-flash';
+    // Use the active config state
+    const apiUrl = activeApiUrl;
+    const apiKey = activeApiKey;
+    const apiModel = activeApiModel;
 
     if (!apiKey) {
         addMessage('System', 'Please configure your API Key in the settings (gear icon) first.');
@@ -214,11 +232,21 @@ chatInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendMessage();
 });
 
-settingsBtn.addEventListener('click', () => settingsModal.style.display = 'block');
+settingsBtn.addEventListener('click', () => {
+    populateSettingsForm(); // Re-populate with active config to discard any unsaved edits
+    settingsModal.style.display = 'block';
+});
 closeSettings.addEventListener('click', () => settingsModal.style.display = 'none');
 settingsForm.addEventListener('submit', (e) => {
     e.preventDefault();
     saveConfig();
+});
+
+resetSettingsBtn.addEventListener('click', () => {
+    // Only resets the input fields in the UI. User must click Save to apply.
+    apiUrlInput.value = 'https://api.deepseek.com/v1/chat/completions';
+    apiKeyInput.value = '';
+    apiModelInput.value = 'deepseek-v4-flash';
 });
 
 // Close settings modal if clicking outside the modal content
@@ -247,8 +275,9 @@ clearChatBtn.addEventListener('click', () => {
 
 // Initialization on load
 document.addEventListener('DOMContentLoaded', async () => {
-    await loadEnvConfig();
-    loadConfig();
+    loadConfig();       // 1. Load from localStorage
+    await loadEnvConfig(); // 2. Override with .env if present
+    populateSettingsForm(); // 3. Sync UI visually just once
     loadKnowledgeBase();
     // Welcome message
     setTimeout(() => {

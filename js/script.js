@@ -94,5 +94,15 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
+// Skybox Toggle Logic
+const toggleSkyboxBtn = document.getElementById('toggle-skybox-btn');
+const modelWrapper = document.getElementById('model-wrapper');
+
+if (toggleSkyboxBtn && modelWrapper) {
+    toggleSkyboxBtn.addEventListener('click', () => {
+        modelWrapper.classList.toggle('with-skybox');
+    });
+}
+
 // Run initialization when DOM is fully loaded
 document.addEventListener('DOMContentLoaded', initializeWebsite);
