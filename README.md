@@ -26,6 +26,14 @@ The digital assets used in this demo were created using the following workflow:
 1. **Scanning:** The 3D models were scanned and processed using the [Apple Reality Composer](https://apps.apple.com/us/app/reality-composer/id1462358802) app on iOS.
 2. **Rendering & Processing:** The 6-sided orthographic screenshots with transparent backgrounds were generated using Unity.
 
+## 🚀 Performance Optimization
+
+To ensure fast load times and a smooth user experience, the 3D models have been heavily optimized:
+
+* **Dual Compression Strategy:** The 3D model uses both **Draco compression** (for geometry/meshes) and **WebP compression** (for embedded textures) using the `@gltf-transform/cli` tool.
+* **Massive Size Reduction:** The final model size was reduced by over **96%** (from 13.8 MB down to 532 KB) while remaining visually lossless.
+* *Note: The original uncompressed model (`Happy Ghast in a Box_9746.glb`) is kept in the `models/` directory strictly as a high-fidelity reference for future edits.*
+
 ## ⚙️ Usage & Configuration
 
 Because this project dynamically loads local JSON data and 3D models, it must be run through a local web server to bypass browser CORS security restrictions.
