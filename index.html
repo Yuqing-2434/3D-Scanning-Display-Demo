@@ -13,6 +13,8 @@
     <header id="header">
         <div class="banner">
             <h1 id="page-title">Loading...</h1>
+            <!-- Settings button for AI config -->
+            <button id="settings-btn" class="mc-button" style="position: absolute; top: 20px; right: 30px;">⚙ AI Settings</button>
         </div>
     </header>
 
@@ -59,8 +61,63 @@
         <div id="modal-caption"></div>
     </div>
 
-    <!-- Main JavaScript Logic -->
+    <!-- Modal for AI Settings -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content panel" style="max-width: 500px; margin-top: 15vh; padding: 25px;">
+            <span class="close-btn" id="close-settings">&times;</span>
+            <h2 style="border-bottom: 2px solid var(--mc-border-dark); padding-bottom: 10px; margin-top: 0;">AI Configuration</h2>
+            <p style="font-size: 0.9rem; color: #aaa;">Provide your API credentials to enable the AI Guide. Your key is stored securely in your browser's LocalStorage.</p>
+            
+            <form class="settings-form" id="settings-form">
+                <label for="api-url" style="margin-top: 10px; display: block;">API Base URL:</label>
+                <input type="text" id="api-url" class="mc-input" value="https://api.deepseek.com/v1/chat/completions">
+                
+                <label for="api-key" style="margin-top: 15px; display: block;">API Key:</label>
+                <input type="password" id="api-key" class="mc-input" placeholder="sk-...">
+
+                <label for="api-model" style="margin-top: 15px; display: block;">Model Name:</label>
+                <input type="text" id="api-model" class="mc-input" value="deepseek-v4-flash">
+                
+                <button type="submit" id="save-settings-btn" class="mc-button" style="margin-top: 25px; width: 100%;">Save Config</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
     <script src="js/script.js"></script>
+
+    <!-- Floating AI Widget -->
+    <div id="ai-widget">
+        <!-- Floating Chat Panel -->
+        <div id="floating-chat-panel" class="panel chat-panel hidden">
+            <div class="chat-header">
+                <h2 style="margin: 0; padding-bottom: 0; border: none;">AI Guide</h2>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <button id="clear-chat" class="mc-button" style="padding: 4px 10px; font-size: 0.85rem;">Clear</button>
+                    <button id="close-chat" class="mc-button" style="padding: 4px 10px; font-size: 0.85rem;">X</button>
+                </div>
+            </div>
+            <div id="chat-history" class="chat-history">
+                <!-- Messages will be injected here by JS -->
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" class="mc-input" placeholder="Ask about the specimen...">
+                <button id="send-btn" class="mc-button">Send</button>
+            </div>
+        </div>
+        
+        <!-- Floating Chat Button -->
+        <div id="ai-chat-btn" class="ai-chat-btn">
+            <span class="tooltip">Need a Guide?</span>
+            <img src="img/Happy_ghast_idle_animation_(pixel_art).gif" alt="AI Guide" class="flipped-ghast">
+        </div>
+    </div>
+
+    <!-- Load dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Load chat logic AFTER DOM elements are declared -->
+    <script src="js/chat.js"></script>
 
     <!-- Simple Footer Section -->
     <footer class="footer">

@@ -67,6 +67,21 @@ You do not need to modify any HTML or JS files to change the displayed content. 
 }
 ```
 
+## 🤖 AI Guide Integration (Pure Frontend)
+
+This project features a fully client-side AI integration allowing users to chat with an intelligent "Museum Guide".
+* **User-Configurable API:** Because this is a static site, users must provide their own OpenAI-compatible API URL and API Key via the "⚙ AI Settings" button.
+* **Local Storage Security:** API credentials are saved securely in the browser's `localStorage` and are never transmitted anywhere except to the configured LLM provider.
+* **Dynamic Knowledge Base:** The AI is context-aware. It loads facts dynamically from `data/knowledge.md` to accurately answer questions about the specific 3D specimen (e.g., Happy Ghast lore, Kleenex box dimensions) without hallucinating.
+
+### Local Development (.env Support)
+If you are running the project locally (e.g., via `python -m http.server`), you can create a `.env` file in the root directory to avoid typing your API key every time:
+```env
+API_URL=https://api.openai.com/v1/chat/completions
+API_KEY=sk-your_api_key_here
+```
+*Note: The `.env` file is excluded from Git tracking via `.gitignore`. The web interface will attempt to fetch it silently on load; if deployed to production (like GitHub Pages), this fetch safely fails and falls back to user input.*
+
 ## 🌐 Deployment (GitHub Pages)
 
 This project is deployed and hosted for free via **GitHub Pages**. 
