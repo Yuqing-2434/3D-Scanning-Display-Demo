@@ -224,10 +224,16 @@ async function initializeWebsite() {
             galleryGrid.appendChild(item);
         });
 
+        // Reveal the body now that the theme is applied
+        document.body.classList.add('theme-loaded');
+
     } catch (error) {
         console.error("Failed to load or parse JSON configs:", error);
         const errText = window.appConfig?.uiText?.errorLoadConfig || "Error: Failed to load configuration data. Check console for details.";
         document.getElementById('page-description').textContent = errText;
+        
+        // Reveal the body even on error so the user can see the error message
+        document.body.classList.add('theme-loaded');
     }
 }
 
