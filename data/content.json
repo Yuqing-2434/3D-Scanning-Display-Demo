@@ -1,37 +1,35 @@
 {
   "title": "Happy Ghast Specimen",
   "description": "A Harnessed happy ghast sit on a tissue paper box. This specimen exhibits unique cute cubic structures. Scanned by RealityComposer, this model captures the intricate details of the features and textures. Perfect for display or educational purposes.",
-  "aiWelcomeMessage": "Welcome! I am your AI Museum Guide. Ask me anything about this Happy Ghast specimen!",
-  "uiText": {
-    "errorLoadConfig": "Error: Failed to load configuration data. Check console for details.",
-    "hotspotHoverPrompt": "Click to ask AI",
-    "modalAskAIPrefix": "Can you tell me more about the photo: ",
-    "modalBtnAskAI": "Ask AI About This",
-    "chatTyping": "typing...",
-    "chatCleared": "Chat cleared! How can I help you?",
-    "chatNoApiKey": "Please configure your API Key in the settings (gear icon) first.",
-    "chatSettingsSaved": "Settings saved successfully! You can now chat.",
-    "chatConnectionFailed": "Connection failed:",
-    "loadingModelText": "Loading 3D Model..."
-  },
   "modelUrl": "models/Happy_Ghast_optimized.glb",
   "bannerUrl": "img/1.21.6_ChaseTheSkies_Header.png",
   "hotspots": [
     {
+      "id": "hotspot-face",
       "slot": "hotspot-face",
       "position": "-0.015 0.2 0",
       "normal": "0 0 1",
       "label": "Happy Ghast Face",
       "prompt": "Tell me about this closed-eye smiling face. How does it differ from a normal Ghast?",
-      "orbit": "0deg 85deg 1.5m"
+      "orbit": "0deg 85deg 0.7m"
     },
     {
+      "id": "hotspot-box",
       "slot": "hotspot-box",
       "position": "-0.015 0.05 0.05",
       "normal": "1 0 0",
       "label": "Tissue Box Base",
       "prompt": "What is this tissue box base it is sitting on? Is it a standard Kleenex box?",
-      "orbit": "45deg 75deg 2m"
+      "orbit": "45deg 75deg 1.2m"
+    },
+    {
+      "id": "hotspot-harness",
+      "slot": "hotspot-harness",
+      "position": "-0.010 0.268 -0.025",
+      "normal": "0 1 0",
+      "label": "Ghast Harness",
+      "prompt": "Can you explain the harness on this Ghast?",
+      "orbit": "0deg 45deg 0.8m"
     }
   ],
   "images": [
@@ -45,26 +43,5 @@
     { "id": "etch", "src": "img/Happy_Ghast_With_Etch_A_Sketch.jpeg", "label": "Etch A Sketch", "description": "Happy Ghast creating art on an Etch A Sketch." },
     { "id": "museum", "src": "img/Happy_Ghast_in_museum.jpeg", "label": "Museum Exhibit", "description": "Happy ghast is watching an aquarium." },
     { "id": "flower", "src": "img/Happy_Ghast_with_dandelion_flower.jpeg", "label": "Dandelion Flower", "description": "Enjoying a fresh dandelion flower in the wild." }
-  ],
-  "theme": {
-    "colors": {
-      "bg-color": "#c6c6c6",
-      "border-light": "#ffffff",
-      "border-dark": "#555555",
-      "text-dark": "#3f3f3f",
-      "text-light": "#ffffff"
-    },
-    "fonts": {
-      "title": {
-        "type": "local",
-        "family": "MinecraftTitle",
-        "url": "fonts/minecraft_pe/MINECRAFT PE.ttf"
-      },
-      "body": {
-        "type": "local",
-        "family": "MinecraftBody",
-        "url": "fonts/Minecraft_Pixel_Font.ttf"
-      }
-    }
-  }
+  ]
 }

@@ -52,53 +52,41 @@ Because this project dynamically loads local JSON data and 3D models, it must be
 
 ### How to Configure Content
 
-You do not need to modify any HTML or JS files to change the displayed content. All configurations (texts, images, UI strings) have been extracted to a central configuration file.
+You do not need to modify any HTML or JS files to change the displayed content. The configuration has been split into four specialized files for high readability and modularity:
 
-Simply edit `data/config.json`:
+1. **`data/content.json`**:
+   The primary file for the 3D specimen. Contains the title, description, model paths, image gallery array, and 3D hotspots.
+
+2. **`data/ui_text.json`**:
+   Contains all hardcoded UI strings (buttons, loading texts, tooltips). Perfect for localizing the website to another language without touching code.
+
+3. **`data/ai_config.json`**:
+   The brain settings for the AI Guide. Contains the AI welcome message, custom system prompt additions, and generic `[ACTION: id]` mappings for camera control.
+
+4. **`data/theme.json`** (New!):
+   The central theme engine configuration. It allows for global style switching (e.g., between a Minecraft pixel aesthetic and a modern Cornell academic aesthetic) simply by changing the `activeTheme` key.
+
+### 🎨 Theme Engine
+
+The project now supports a fully decoupled **Theme Engine**. 
+To switch the visual style of the entire website, open `data/theme.json`:
 
 ```json
 {
-  "title": "Happy Ghast Specimen",
-  "aiWelcomeMessage": "Welcome! I am your AI Museum Guide...",
-  "uiText": {
-    "sectionModel": "Interactive 3D Model",
-    "modalBtnAskAI": "Ask AI About This"
-    // ... all UI strings can be localized or changed here
-  },
-  "modelUrl": "models/Your_Model.glb",
-  "bannerUrl": "img/Your_Banner.png",
-  "images": [
-    { 
-      "id": "front", 
-      "src": "img/path_to_img.png", 
-      "label": "Front View",
-      "description": "Optional text that appears on hover and in the modal."
-    }
-  ],
-  "hotspots": [
-    {
-      "slot": "hotspot-example",
-      "position": "0 0.5 0.5",
-      "normal": "0 0 1",
-      "label": "Interesting Feature",
-      "prompt": "Tell me about this specific feature...",
-      "orbit": "0deg 85deg 1.5m"
-    }
-  ],
-  "theme": {
-    "colors": {
-      "bg-color": "#c6c6c6",
-      "text-dark": "#3f3f3f"
+  "activeTheme": "cornell", // Change this to "minecraft" to instantly switch themes
+  "themes": {
+    "cornell": {
+      "name": "cornell",
+      "chatIcon": "💬",
+      "colors": { ... },
+      "fonts": { ... }
     },
-    "fonts": {
-      "title": { "type": "local", "family": "MinecraftTitle", "url": "fonts/...ttf" },
-      "body": { "type": "google", "family": "Press Start 2P" }
-    }
+    "minecraft": { ... }
   }
 }
 ```
 
-*Note: The `theme` block dynamically overrides CSS variables, allowing you to easily reskin the entire page and swap fonts (both local files and Google Fonts) without touching `style.css`!*
+*Note: The `theme` block dynamically overrides CSS variables, fonts (Google Fonts or local `.ttf`), and structural CSS classes without requiring you to touch `style.css`! The Cornell theme introduces a clean, academic layout with modern dialog bubbles, while the Minecraft theme offers a retro gaming UI.*
 
 ## 🤖 AI Guide Integration (Pure Frontend)
 
@@ -124,7 +112,7 @@ The AI guide is deeply integrated with the 3D viewer:
 To make adding new hotspots incredibly easy without guessing complex 3D coordinates:
 1. Ensure `const DEBUG_MODE = true;` is set in `js/script.js`.
 2. Open the page and hold the **`Alt`** key while clicking anywhere on the 3D model.
-3. An exact JSON snippet with the calculated 3D `position` and `normal` vectors will be generated and printed to your browser's Developer Console (F12), ready to be pasted directly into `data/config.json`!
+3. An exact JSON snippet with the calculated 3D `position` and `normal` vectors will be generated and printed to your browser's Developer Console (F12), ready to be pasted directly into `data/content.json`!
 
 ## 🌐 Deployment (GitHub Pages)
 

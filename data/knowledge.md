@@ -8,6 +8,11 @@ This specimen is a unique combination of two items: a Happy Ghast plush toy from
 - **Variation**: Unlike standard in-game Ghasts which are constantly crying with a sad or angry expression, this specific item is a "Happy Ghast" plush toy. It features closed, curved eyes denoting a cheerful, contented smile, completely reversing the typical intimidating nature of the creature.
 - **Physical Characteristics**: It maintains the classic cubic body and the 9 trailing tentacles (legs) beneath its main body, rendered in a soft, plush material.
 
+## The Harness
+- **Function**: A harness is an item in Minecraft that can be equipped specifically on Happy Ghasts to make them mountable and rideable by players.
+- **Crafting**: It is crafted using Leather, Glass (which acts as a pair of goggles), and Wool.
+- **Customization**: The harness can be crafted into 16 different dyed color variants depending on the color of wool used. **The specific specimen shown here is wearing the Blue Harness variant**, worn securely on top of its head, indicating it is ready to be ridden!
+
 ## The Tissue Box (Pedestal)
 - **Brand**: Kleenex Naturals Facial Tissue (2-Ply, White).
 - **Form Factor**: A standard rectangular cardboard box with a geometric leafy pattern, acting as an impromptu pedestal for the plush.

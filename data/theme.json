@@ -1,0 +1,48 @@
+{
+  "activeTheme": "cornell",
+  "themes": {
+    "cornell": {
+      "name": "cornell",
+      "chatIcon": "💬",
+      "colors": {
+        "bg-color": "#f7f7f7",
+        "border-light": "#dddddd",
+        "border-dark": "#b31b1b",
+        "text-dark": "#222222",
+        "text-light": "#ffffff"
+      },
+      "fonts": {
+        "title": {
+          "type": "google",
+          "family": "Inter"
+        },
+        "body": {
+          "type": "google",
+          "family": "Inter"
+        }
+      }
+    },
+    "minecraft": {
+      "name": "minecraft",
+      "colors": {
+        "bg-color": "#c6c6c6",
+        "border-light": "#ffffff",
+        "border-dark": "#555555",
+        "text-dark": "#3f3f3f",
+        "text-light": "#ffffff"
+      },
+      "fonts": {
+        "title": {
+          "type": "local",
+          "family": "MinecraftTitle",
+          "url": "fonts/minecraft_pe/MINECRAFT PE.ttf"
+        },
+        "body": {
+          "type": "local",
+          "family": "MinecraftBody",
+          "url": "fonts/Minecraft_Pixel_Font.ttf"
+        }
+      }
+    }
+  }
+}

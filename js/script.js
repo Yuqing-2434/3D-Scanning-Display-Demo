@@ -1,18 +1,26 @@
 // Function to fetch data.json and populate the HTML
 async function initializeWebsite() {
     try {
-        // Fetch the configuration JSON file
-        const response = await fetch('data/config.json');
+        // Fetch the configuration JSON files
+        const [contentRes, uiRes, aiRes, themeRes] = await Promise.all([
+            fetch('data/content.json'),
+            fetch('data/ui_text.json'),
+            fetch('data/ai_config.json'),
+            fetch('data/theme.json')
+        ]);
         
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        if (!contentRes.ok || !uiRes.ok || !aiRes.ok || !themeRes.ok) {
+            throw new Error(`HTTP error! content: ${contentRes.status}, ui: ${uiRes.status}, ai: ${aiRes.status}, theme: ${themeRes.status}`);
         }
         
-        const data = await response.json();
+        const content = await contentRes.json();
+        const uiText = await uiRes.json();
+        const aiConfig = await aiRes.json();
+        const themeConfig = await themeRes.json();
         
         // Expose data globally so chat.js doesn't need to re-fetch
+        const data = { ...content, uiText, aiConfig, themeConfig };
         window.appConfig = data;
-        const uiText = data.uiText || {};
 
         // 0. Setup UI Text Overrides
         if (Object.keys(uiText).length > 0) {
@@ -47,49 +55,72 @@ async function initializeWebsite() {
         document.getElementById('page-description').textContent = data.description;
         document.title = "3D Specimen: " + data.title;
 
+        // 2. Setup 3D Model
+        const modelViewer = document.getElementById('model-viewer');
+        if (modelViewer) {
+            modelViewer.src = data.modelUrl;
+            if (aiConfig?.actions?.default_view) {
+                modelViewer.cameraOrbit = aiConfig.actions.default_view;
+                modelViewer.fieldOfView = 'auto';
+            }
+        }
+
         // 2. Setup Header Banner Background
         if (data.bannerUrl) {
             document.querySelector('.banner').style.backgroundImage = `url('${data.bannerUrl}')`;
         }
 
         // 3. Apply Theme Configuration
-        if (data.theme) {
-            if (data.theme.colors) {
-                Object.entries(data.theme.colors).forEach(([key, value]) => {
+        const activeThemeData = themeConfig.themes[themeConfig.activeTheme];
+        
+        if (activeThemeData) {
+            // Apply theme class name for CSS overrides
+            if (activeThemeData.name) {
+                document.body.classList.add(`theme-${activeThemeData.name}`);
+            }
+            
+            // Replace chat icon if specified
+            if (activeThemeData.chatIcon) {
+                const aiBtn = document.getElementById('ai-chat-btn');
+                if (aiBtn) {
+                    const tooltipText = window.appConfig.uiText?.chatTooltipGuide || 'Click to ask AI';
+                    aiBtn.innerHTML = `<div class="chat-icon-emoji">${activeThemeData.chatIcon}</div><div class="tooltip">${tooltipText}</div>`;
+                }
+            }
+
+            if (activeThemeData.colors) {
+                Object.entries(activeThemeData.colors).forEach(([key, value]) => {
                     document.documentElement.style.setProperty(`--mc-${key}`, value);
                 });
             }
-            if (data.theme.fonts) {
-                let customStyles = "";
-                const applyFont = (fontConfig, cssVar) => {
-                    if (!fontConfig) return;
-                    if (fontConfig.type === "google") {
+
+            if (activeThemeData.fonts) {
+                Object.entries(activeThemeData.fonts).forEach(([element, fontConfig]) => {
+                    if (fontConfig.type === "local") {
+                        const newStyle = document.createElement('style');
+                        newStyle.appendChild(document.createTextNode(`
+                            @font-face {
+                                font-family: '${fontConfig.family}';
+                                src: url('${fontConfig.url}') format('truetype');
+                            }
+                        `));
+                        document.head.appendChild(newStyle);
+                    } else if (fontConfig.type === "google") {
                         const link = document.createElement('link');
                         link.href = `https://fonts.googleapis.com/css2?family=${fontConfig.family.replace(/ /g, '+')}&display=swap`;
                         link.rel = "stylesheet";
                         document.head.appendChild(link);
-                        document.documentElement.style.setProperty(cssVar, `'${fontConfig.family}', sans-serif`);
-                    } else if (fontConfig.type === "local") {
-                        customStyles += `@font-face { font-family: '${fontConfig.family}'; src: url('${fontConfig.url}'); }\n`;
-                        document.documentElement.style.setProperty(cssVar, `'${fontConfig.family}', sans-serif`);
                     }
-                };
-                applyFont(data.theme.fonts.title, '--font-title');
-                applyFont(data.theme.fonts.body, '--font-body');
-                
-                if (customStyles) {
-                    const styleTag = document.createElement('style');
-                    styleTag.innerHTML = customStyles;
-                    document.head.appendChild(styleTag);
-                }
+                    
+                    if (element === "title") {
+                        document.documentElement.style.setProperty('--font-title', `'${fontConfig.family}', sans-serif`);
+                    } else if (element === "body") {
+                        document.documentElement.style.setProperty('--font-body', `'${fontConfig.family}', sans-serif`);
+                    }
+                });
             }
         }
 
-        // 4. Setup 3D Model Viewer
-        const modelViewer = document.getElementById('model-viewer');
-        if (data.modelUrl) {
-            modelViewer.src = data.modelUrl;
-        }
 
         // 4.5 Setup Hotspots
         if (data.hotspots && Array.isArray(data.hotspots)) {
@@ -121,9 +152,13 @@ async function initializeWebsite() {
 
                 // Add click event to trigger AI Guide & Camera Orbit
                 btn.addEventListener('click', () => {
-                    // Orbit Camera
+                    // Orbit Camera and shift Target Focus
+                    if (hotspotData.position) {
+                        modelViewer.cameraTarget = hotspotData.position;
+                    }
                     if (hotspotData.orbit) {
                         modelViewer.cameraOrbit = hotspotData.orbit;
+                        modelViewer.fieldOfView = 'auto';
                     }
                     // Trigger AI Chat
                     if (hotspotData.prompt && window.triggerHotspotAI) {
@@ -190,7 +225,7 @@ async function initializeWebsite() {
         });
 
     } catch (error) {
-        console.error("Failed to load or parse data/config.json:", error);
+        console.error("Failed to load or parse JSON configs:", error);
         const errText = window.appConfig?.uiText?.errorLoadConfig || "Error: Failed to load configuration data. Check console for details.";
         document.getElementById('page-description').textContent = errText;
     }
@@ -265,15 +300,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     const normal = `${hit.normal.x.toFixed(3)} ${hit.normal.y.toFixed(3)} ${hit.normal.z.toFixed(3)}`;
                     
                     const hotspotConfig = {
+                        "id": "hotspot-" + Date.now(),
                         "slot": "hotspot-" + Date.now(),
                         "position": position,
                         "normal": normal,
                         "label": "New Hotspot",
                         "prompt": "Tell me about this part...",
-                        "orbit": `${hit.position.x.toFixed(1)}deg ${hit.position.y.toFixed(1)}deg 2m`
+                        "orbit": `0deg 75deg 0.5m`
                     };
                     
-                    console.log("📍 [Hotspot Config - Paste into data.json]:\n", JSON.stringify(hotspotConfig, null, 2));
+                    console.log("📍 [Hotspot Config - Paste into data/content.json]:\n", JSON.stringify(hotspotConfig, null, 2));
                     alert(`Coordinates Picked!\nPosition: ${position}\n(Check Console F12 for JSON)`);
                 }
             }

@@ -22,22 +22,26 @@
         <!-- Description Section -->
         <section class="info-section">
             <div class="panel">
-                <h2>Description</h2>
-                <p id="page-description">Loading description...</p>
+                <div class="panel-header">
+                    <h2>Description</h2>
+                </div>
+                <div class="panel-content">
+                    <p id="page-description">Loading description...</p>
+                </div>
             </div>
         </section>
 
         <!-- 3D Model Viewer Section -->
         <section class="viewer-section">
             <div class="panel">
-                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--mc-border-dark); padding-bottom: 5px; margin-bottom: 10px;">
-                    <h2 style="margin: 0; padding: 0; border: none;">Interactive 3D Model</h2>
+                <div class="panel-header">
+                    <h2>Interactive 3D Model</h2>
                 </div>
                 <div class="model-container with-skybox" id="model-wrapper">
                     <model-viewer id="model-viewer" 
                                   src="" 
                                   camera-controls 
-                                  auto-rotate 
+                                  min-camera-orbit="auto auto 0m"
                                   shadow-intensity="1"
                                   ar>
                         <!-- Loading Poster -->
@@ -47,7 +51,7 @@
                     </model-viewer>
                 </div>
                 <!-- 3D Viewer Controls -->
-                <div style="display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end;">
+                <div class="panel-content" style="display: flex; gap: 10px; padding-top: 10px; justify-content: flex-end;">
                     <button id="toggle-anchors-btn" class="mc-button" style="padding: 4px 10px; font-size: 0.85rem;">Toggle Hotspots</button>
                     <button id="toggle-skybox-btn" class="mc-button" style="padding: 4px 10px; font-size: 0.85rem;">Toggle Background</button>
                 </div>
@@ -57,9 +61,13 @@
         <!-- Gallery Section -->
         <section class="gallery-section">
             <div class="panel">
-                <h2 style="border-bottom: 2px solid var(--mc-border-dark); padding-bottom: 5px; margin-bottom: 15px;">Photo Gallery</h2>
-                <div class="gallery-grid" id="gallery-grid">
-                    <!-- Images will be injected here by JS -->
+                <div class="panel-header">
+                    <h2>Photo Gallery</h2>
+                </div>
+                <div class="panel-content">
+                    <div class="gallery-grid" id="gallery-grid">
+                        <!-- Images will be injected here by JS -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -74,12 +82,13 @@
 
     <!-- Modal for AI Settings -->
     <div id="settings-modal" class="modal">
-        <div class="modal-content panel" style="max-width: 500px; margin-top: 15vh; padding: 25px; height: auto;">
-            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid var(--mc-border-dark); padding-bottom: 10px; margin-bottom: 15px;">
-                <h2 style="margin: 0; padding: 0; border: none; line-height: 1;">AI Configuration</h2>
+        <div class="modal-content panel" style="max-width: 500px; margin-top: 15vh; height: auto;">
+            <div class="panel-header">
+                <h2>AI Configuration</h2>
                 <button type="button" id="close-settings" class="mc-button danger-btn" style="padding: 4px 10px; font-size: 0.85rem;">X</button>
             </div>
-            <p style="font-size: 0.9rem; color: #aaa; margin-top: 0;">Provide your API credentials to enable the AI Guide. Your key is stored securely in your browser's LocalStorage.</p>
+            <div class="panel-content">
+                <p style="font-size: 0.9rem; color: #aaa; margin-top: 0;">Provide your API credentials to enable the AI Guide. Your key is stored securely in your browser's LocalStorage.</p>
             
             <form class="settings-form" id="settings-form">
                 <label for="api-url" style="margin-top: 10px; display: block;">API Base URL:</label>
@@ -96,6 +105,7 @@
                     <button type="submit" id="save-settings-btn" class="mc-button" style="flex: 2;">Save Config</button>
                 </div>
             </form>
+            </div>
         </div>
     </div>
 
@@ -109,17 +119,17 @@
     <div id="ai-widget">
         <!-- Floating Chat Panel -->
         <div id="floating-chat-panel" class="panel chat-panel hidden">
-            <div class="chat-header" style="display: flex; align-items: center; justify-content: space-between;">
-                <h2 style="margin: 0; padding-bottom: 0; border: none; line-height: 1;">AI Guide</h2>
-                <div style="display: flex; gap: 8px; align-items: center; margin-top: -2px;">
+            <div class="panel-header chat-header">
+                <h2>AI Guide</h2>
+                <div style="display: flex; gap: 8px; align-items: center;">
                     <button id="clear-chat" class="mc-button danger-btn" style="padding: 4px 10px; font-size: 0.85rem;">Clear</button>
                     <button id="close-chat" class="mc-button danger-btn" style="padding: 4px 10px; font-size: 0.85rem;">X</button>
                 </div>
             </div>
-            <div id="chat-history" class="chat-history">
+            <div id="chat-history" class="chat-history" style="flex-grow:1; margin: 0 15px 15px 15px; padding: 12px; overflow-y: auto;">
                 <!-- Messages will be injected here by JS -->
             </div>
-            <div class="chat-input-container">
+            <div class="chat-input-container" style="margin: 0 15px 15px 15px;">
                 <input type="text" id="chat-input" class="mc-input" placeholder="Ask about the specimen...">
                 <button id="send-btn" class="mc-button">Send</button>
             </div>
@@ -140,7 +150,8 @@
 
     <!-- Simple Footer Section -->
     <footer class="footer">
-        <p>&copy; 2026 Creative Technology Lab | 3D Specimen Display Demo | <a href="https://github.com/XXXStars0/3D-Scanning-Display-Demo" target="_blank" class="repo-link">View GitHub Repository</a></p>
+        <p>&copy; <a href="https://teaching.cornell.edu/learning-technologies/creative-technology-lab" target="_blank" class="link"> 2026 Creative Technology Lab </a> | 3D Specimen Display Demo | <a href="https://github.com/XXXStars0/3D-Scanning-Display-Demo" target="_blank" class="link">View GitHub Repository</a></p>
     </footer>
 </body>
 </html>
+

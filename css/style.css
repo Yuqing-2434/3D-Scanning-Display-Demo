@@ -109,14 +109,24 @@ body {
     box-sizing: border-box;
 }
 
-.panel h2 {
-    font-family: var(--font-title);
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: var(--mc-text-dark);
-    font-size: 1.4rem;
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 2px solid var(--mc-border-dark);
     padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+.panel-header h2 {
+    font-family: var(--font-title);
+    margin: 0;
+    padding: 0;
+    color: var(--mc-text-dark);
+    font-size: 1.4rem;
+    border-bottom: none;
+}
+.panel-content {
+    /* No generic padding by default, theme can override */
 }
 
 /* 3D Model Container */
@@ -315,14 +325,14 @@ model-viewer {
     margin-top: 20px;
 }
 
-.footer a.repo-link {
+a.link {
     color: #ffaa00; /* Gold color */
     text-decoration: none;
     font-weight: bold;
     transition: color 0.2s;
 }
 
-.footer a.repo-link:hover {
+a.link:hover {
     color: #ffffff;
     text-decoration: underline;
 }
@@ -638,4 +648,271 @@ model-viewer {
 /* For toggling all anchors via the button */
 .hide-anchors .hotspot-btn {
     display: none !important;
+}
+
+/* === Cornell / Modern Academic Theme Overrides === */
+body.theme-cornell {
+    background: #f7f7f7;
+    color: #222;
+}
+
+body.theme-cornell .panel {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 0; /* Square Frame */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 0; /* Remove padding to let header flush edges */
+}
+
+body.theme-cornell .panel-header {
+    background-color: #b31b1b; /* Cornell Red Header */
+    color: #ffffff;
+    margin: 0;
+    padding: 12px 20px;
+    border-bottom: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body.theme-cornell .panel-header h2 {
+    color: #ffffff;
+    font-weight: 600;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+body.theme-cornell .panel-content {
+    padding: 15px 20px; /* Reliable content padding */
+    box-sizing: border-box;
+}
+
+/* Let the 3D model container sit nicely without an extra padding wrapper */
+body.theme-cornell .panel > .model-container {
+    border-top: 1px solid #ddd;
+    border-radius: 0;
+}
+
+/* Ensure Gallery grid gets side bar scrolling */
+body.theme-cornell .gallery-grid {
+    padding-right: 10px; /* Space for scrollbar */
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+body.theme-cornell .gallery-grid::-webkit-scrollbar,
+body.theme-cornell .chat-history::-webkit-scrollbar {
+    width: 8px;
+}
+body.theme-cornell .gallery-grid::-webkit-scrollbar-track,
+body.theme-cornell .chat-history::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 4px;
+    border: none;
+}
+body.theme-cornell .gallery-grid::-webkit-scrollbar-thumb,
+body.theme-cornell .chat-history::-webkit-scrollbar-thumb {
+    background: #ccc; 
+    border-radius: 4px;
+    border: none;
+}
+body.theme-cornell .gallery-grid::-webkit-scrollbar-thumb:hover,
+body.theme-cornell .chat-history::-webkit-scrollbar-thumb:hover {
+    background: #999; 
+    border: none;
+}
+
+body.theme-cornell .mc-button {
+    background-color: #b31b1b;
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    text-shadow: none;
+    box-shadow: none;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+body.theme-cornell .mc-button:hover {
+    background-color: #901515;
+    transform: none;
+    box-shadow: none;
+}
+
+body.theme-cornell .mc-button:active {
+    transform: none;
+    box-shadow: none;
+    background-color: #7a1111;
+}
+
+body.theme-cornell .gallery-item {
+    background-color: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+body.theme-cornell .gallery-item:hover {
+    border-color: #b31b1b;
+    box-shadow: 0 4px 12px rgba(179,27,27,0.15);
+}
+
+body.theme-cornell .gallery-item img {
+    border: none;
+    background-color: #f7f7f7;
+    border-radius: 0;
+    image-rendering: auto; /* Turn off pixelated rendering */
+}
+
+body.theme-cornell .gallery-label {
+    color: #333;
+    text-shadow: none;
+    font-weight: 500;
+}
+
+body.theme-cornell .model-container {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+body.theme-cornell .banner {
+    border-bottom: 4px solid #b31b1b;
+}
+
+body.theme-cornell .banner h1 {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    font-weight: 700;
+}
+
+body.theme-cornell .chat-panel {
+    border: none;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    padding: 0;
+    overflow: hidden;
+}
+
+body.theme-cornell .chat-header {
+    border-bottom: none;
+}
+
+body.theme-cornell .chat-header h2 {
+    color: #ffffff;
+}
+
+body.theme-cornell .chat-history {
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Bubbles separation */
+}
+
+/* Chat Bubbles Design */
+body.theme-cornell .chat-message {
+    border-radius: 18px;
+    padding: 10px 15px;
+    max-width: 85%;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+body.theme-cornell .user-message {
+    background-color: #b31b1b;
+    color: #ffffff;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px; /* classic bubble tail */
+    font-weight: normal;
+}
+
+body.theme-cornell .ai-message {
+    background-color: #e8e8e8;
+    color: #222222;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+body.theme-cornell .system-message {
+    background-color: #fff3f3;
+    color: #b31b1b;
+    align-self: center;
+    border-radius: 8px;
+    border: 1px solid #ffcccc;
+    font-size: 0.85rem;
+    padding: 5px 10px;
+}
+
+body.theme-cornell .mc-input {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    color: #333;
+}
+
+body.theme-cornell .mc-input:focus {
+    outline: none;
+    border-color: #b31b1b;
+    background-color: #fff;
+}
+
+body.theme-cornell .chat-icon-emoji {
+    width: 60px;
+    height: 60px;
+    background-color: #b31b1b;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Very subtle floating shadow, no glow */
+    transition: background-color 0.2s ease;
+}
+
+body.theme-cornell .chat-icon-emoji:hover {
+    background-color: #901515;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+body.theme-cornell .tooltip {
+    border: none;
+    border-radius: 6px;
+    background-color: #333;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+body.theme-cornell .tooltip::after {
+    border-color: #333 transparent transparent transparent;
+}
+
+body.theme-cornell .hotspot-btn {
+    border-radius: 50%;
+    background-color: #b31b1b;
+    border: 2px solid white;
+    box-shadow: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+body.theme-cornell .hotspot-btn:hover {
+    background-color: #901515;
+    transform: scale(1.15);
+}
+
+body.theme-cornell a.link {
+    color: #b31b1b;
+    font-weight: 600;
+}
+
+body.theme-cornell a.link:hover {
+    color: #901515;
+    text-decoration: underline;
 }

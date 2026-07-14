@@ -150,12 +150,12 @@ async function sendMessage() {
 
     try {
         // Construct the System Prompt with the injected Knowledge Base
+        const aiPromptAdds = window.appConfig?.aiConfig?.systemPromptAdditions || '';
         const systemPrompt = `You are an expert museum guide for this 3D specimen display. 
 You are enthusiastic, slightly humorous, and speak in a Minecraft-inspired tone.
 Answer the user's questions about the specimen based strictly on the following Knowledge Base. 
 Do not make up facts outside the knowledge base. Keep your answers concise and engaging.
-
-If you want to focus the 3D camera on a specific view based on what you are talking about, you can output a command in this exact format: [LOOKAT: x-deg y-deg z-m]. For example: [LOOKAT: 45deg 90deg 1.5m]. The 3D camera will automatically move there!
+${aiPromptAdds}
 
 --- KNOWLEDGE BASE ---
 ${knowledgeBase}`;
@@ -214,15 +214,38 @@ ${knowledgeBase}`;
                         if (data.choices[0].delta && data.choices[0].delta.content) {
                             rawContent += data.choices[0].delta.content;
                             
-                            // Check and execute [LOOKAT: ...] camera commands
-                            const lookatRegex = /\[LOOKAT:\s*([^\]]+)\]/g;
+                            // Check and execute [ACTION: id] camera commands
+                            const actionRegex = /\[\s*ACTION\s*:\s*([^\]]+)\s*\]/ig;
                             let match;
                             let displayContent = rawContent;
-                            while ((match = lookatRegex.exec(rawContent)) !== null) {
-                                const targetOrbit = match[1];
+                            while ((match = actionRegex.exec(rawContent)) !== null) {
+                                const actionId = match[1].trim();
                                 const modelViewer = document.getElementById('model-viewer');
-                                if (modelViewer) {
-                                    modelViewer.cameraOrbit = targetOrbit;
+                                
+                                if (modelViewer && window.appConfig) {
+                                    let targetOrbit = null;
+                                    
+                                    // 1. Check if action matches a hotspot ID
+                                    const hotspots = window.appConfig.hotspots || [];
+                                    const hotspot = hotspots.find(h => h.id === actionId || h.slot === actionId);
+                                    if (hotspot) {
+                                        if (hotspot.position) modelViewer.cameraTarget = hotspot.position;
+                                        if (hotspot.orbit) targetOrbit = hotspot.orbit;
+                                    }
+                                    
+                                    // 2. Check if action matches aiConfig generic actions
+                                    if (!hotspot && window.appConfig.aiConfig?.actions) {
+                                        const actionVal = window.appConfig.aiConfig.actions[actionId];
+                                        if (actionVal) {
+                                            modelViewer.cameraTarget = 'auto auto auto'; // Reset target to center
+                                            targetOrbit = actionVal;
+                                        }
+                                    }
+                                    
+                                    if (targetOrbit) {
+                                        modelViewer.cameraOrbit = targetOrbit;
+                                        modelViewer.fieldOfView = 'auto';
+                                    }
                                 }
                                 // Remove it from the text shown to user
                                 displayContent = displayContent.replace(match[0], '');
@@ -314,10 +337,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     populateSettingsForm(); // 3. Sync UI visually just once
     loadKnowledgeBase();
     
-    // Fetch custom welcome message from data/config.json
+    // Fetch custom welcome message from data/ai_config.json
     let welcomeMsg = 'Welcome! I am your AI Museum Guide. How can I help you?';
     try {
-        const res = await fetch('data/config.json');
+        const res = await fetch('data/ai_config.json');
         if (res.ok) {
             const data = await res.json();
             if (data.aiWelcomeMessage) {
@@ -325,7 +348,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
     } catch (e) {
-        console.warn('Could not load aiWelcomeMessage from data/config.json');
+        console.warn('Could not load aiWelcomeMessage from data/ai_config.json');
     }
 
     // Welcome message
