@@ -318,14 +318,66 @@ clearChatBtn.addEventListener('click', () => {
     addMessage('AI', msg);
 });
 
-// Global function to allow script.js to trigger the AI via Hotspots
-window.triggerHotspotAI = function(promptText) {
-    // Open chat panel if closed
+// Open the guide panel and display local hotspot information.
+// AI is optional and only runs when the visitor clicks the button.
+window.showHotspotInfo = function(hotspotData) {
+    if (!hotspotData) return;
+
+    // Open the chat panel if it is closed.
     if (floatingChatPanel.classList.contains('hidden')) {
         floatingChatPanel.classList.remove('hidden');
     }
-    
-    // Set input and send
+
+    const infoMessage = document.createElement('div');
+    infoMessage.className = 'chat-message ai-message hotspot-info-message';
+
+    const title = document.createElement('strong');
+    title.className = 'hotspot-info-title';
+    title.textContent = hotspotData.label || 'Specimen feature';
+
+    const description = document.createElement('p');
+    description.className = 'hotspot-info-description';
+    description.textContent =
+        hotspotData.description ||
+        'No additional information is currently available for this feature.';
+
+    infoMessage.appendChild(title);
+    infoMessage.appendChild(description);
+
+    // Only show the AI button when the hotspot has an AI prompt.
+    if (hotspotData.prompt) {
+        const askButton = document.createElement('button');
+        askButton.type = 'button';
+        askButton.className = 'hotspot-ask-ai-btn';
+        askButton.textContent =
+            window.appConfig?.uiText?.hotspotAskAI ||
+            'Ask AI for more';
+
+        askButton.addEventListener('click', () => {
+            askButton.disabled = true;
+            askButton.textContent = 'Opening AI Guide...';
+
+            chatInput.value = hotspotData.prompt;
+            sendMessage();
+        });
+
+        infoMessage.appendChild(askButton);
+    }
+
+    chatHistory.appendChild(infoMessage);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+};
+
+
+// Keep this function for gallery items or other features
+// that should send a prompt directly to the AI.
+window.triggerHotspotAI = function(promptText) {
+    if (!promptText) return;
+
+    if (floatingChatPanel.classList.contains('hidden')) {
+        floatingChatPanel.classList.remove('hidden');
+    }
+
     chatInput.value = promptText;
     sendMessage();
 };
