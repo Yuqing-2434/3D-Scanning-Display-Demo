@@ -150,19 +150,25 @@ async function initializeWebsite() {
                     globalTooltip.classList.add('hidden');
                 });
 
-                // Add click event to trigger AI Guide & Camera Orbit
+                // Move the camera and display local hotspot information.
+                // AI is available as an optional follow-up action.
                 btn.addEventListener('click', () => {
-                    // Orbit Camera and shift Target Focus
                     if (hotspotData.position) {
                         modelViewer.cameraTarget = hotspotData.position;
                     }
+                
                     if (hotspotData.orbit) {
                         modelViewer.cameraOrbit = hotspotData.orbit;
                         modelViewer.fieldOfView = 'auto';
                     }
-                    // Trigger AI Chat
-                    if (hotspotData.prompt && window.triggerHotspotAI) {
-                        window.triggerHotspotAI(hotspotData.prompt);
+                
+                    if (window.showHotspotInfo) {
+                        window.showHotspotInfo(hotspotData);
+                    } else {
+                        console.warn(
+                            'The hotspot information interface is not available.',
+                            hotspotData
+                        );
                     }
                 });
 
