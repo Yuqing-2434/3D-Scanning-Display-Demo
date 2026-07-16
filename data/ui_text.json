@@ -1,6 +1,8 @@
 {
   "errorLoadConfig": "Error: Failed to load configuration data. Check console for details.",
-  "hotspotHoverPrompt": "Click to ask AI",
+  "hotspotHoverPrompt": "Click to explore",
+  "hotspotAskAI": "Ask AI for more",
+  "hotspotLocalInfo": "Specimen information",
   "modalAskAIPrefix": "Can you tell me more about the photo: ",
   "modalBtnAskAI": "Ask AI About This",
   "chatTyping": "typing...",
