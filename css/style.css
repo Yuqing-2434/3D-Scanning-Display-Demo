@@ -941,3 +941,47 @@ body.theme-cornell a.link:hover {
     color: #901515;
     text-decoration: underline;
 }
+
+/* Local hotspot information shown in the AI Guide panel */
+.hotspot-info-message {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.hotspot-info-title {
+    display: block;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.hotspot-info-description {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.hotspot-ask-ai-btn {
+    align-self: flex-start;
+    margin-top: 4px;
+    padding: 8px 12px;
+    border: 1px solid var(--mc-border-dark, #555);
+    border-radius: 4px;
+    background: var(--mc-button-bg, #eeeeee);
+    color: var(--mc-text, #222222);
+    font: inherit;
+    cursor: pointer;
+}
+
+.hotspot-ask-ai-btn:hover {
+    filter: brightness(0.95);
+}
+
+.hotspot-ask-ai-btn:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 2px;
+}
+
+.hotspot-ask-ai-btn:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
