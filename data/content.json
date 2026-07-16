@@ -10,7 +10,8 @@
       "position": "-0.015 0.2 0",
       "normal": "0 0 1",
       "label": "Happy Ghast Face",
-      "prompt": "Tell me about this closed-eye smiling face. How does it differ from a normal Ghast?",
+      "description": "The Happy Ghast has closed eyes and a curved smile, giving it a friendly expression. This differs from the standard Ghast, which is usually shown with open eyes and a more distressed or hostile-looking face.",
+      "prompt": "Tell me more about the Happy Ghast's closed-eye smiling face. How does it differ from a normal Ghast?",
       "orbit": "0deg 85deg 0.7m"
     },
     {
@@ -19,7 +20,8 @@
       "position": "-0.015 0.05 0.05",
       "normal": "1 0 0",
       "label": "Tissue Box Base",
-      "prompt": "What is this tissue box base it is sitting on? Is it a standard Kleenex box?",
+      "description": "The Happy Ghast specimen rests on a rectangular tissue box. The box provides a stable base and gives viewers a familiar object for understanding the specimen's approximate scale.",
+      "prompt": "Tell me more about the tissue box base beneath the Happy Ghast.",
       "orbit": "45deg 75deg 1.2m"
     },
     {
@@ -28,7 +30,8 @@
       "position": "-0.010 0.268 -0.025",
       "normal": "0 1 0",
       "label": "Ghast Harness",
-      "prompt": "Can you explain the harness on this Ghast?",
+      "description": "The harness wraps around the upper portion of the Happy Ghast. It visually identifies this specimen as a harnessed Happy Ghast and adds structure and color to its cubic body.",
+      "prompt": "Explain the harness on this Happy Ghast and what it is used for.",
       "orbit": "0deg 45deg 0.8m"
     }
   ],
